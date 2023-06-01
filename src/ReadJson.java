@@ -14,12 +14,10 @@ import java.util.ArrayList;
 
 // Program for print data in JSON format.
 public class ReadJson {
-    public int pokeNUM = 0;
+    public int playerNUM = 0;
 
-    public String abilityName = "abilities: ";
+    public String data = "data: ";
     public static void main(String args[]) throws ParseException {
-        // In java JSONObject is used to create JSON object
-        // which is a subclass of java.util.HashMap.
         ReadJson read= new ReadJson();
 
 
@@ -38,27 +36,31 @@ public class ReadJson {
     }
 
     public String getName(){
-        return  abilityName;
+        return  data;
     }
 
     public  void pull() throws ParseException {
         String output = "abc";
         String totlaJson="";
 
-        ArrayList<String> characters = new ArrayList<String>();
-        characters.add("pikachu");
-        characters.add("bulbasaur");
-        characters.add("squirtle");
-        characters.add("charmander");
+        ArrayList<String> players = new ArrayList<String>();
+//        players.add();
+//        players.add();
+
 
         try {
 
-            System.out.println("POKEnum:"+ pokeNUM);
+            System.out.println("Players: "+ playerNUM);
 
-            URL url = new URL("https://pokeapi.co/api/v2/pokemon/" + characters.get(pokeNUM));
+            URL url = new URL("https://free-nba.p.rapidapi.com/players" );
+
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
+//            conn.setRequestProperty("X-RapidAPI-Host", "ree-nba.p.rapidapi.com");
+            conn.setRequestProperty("X-RapidAPI-Key", "8548bbf97fmshfbac91b9df35d10p17eec3jsn51c179578d09");
+
+
 
             if (conn.getResponseCode() != 200) {
 
@@ -70,9 +72,8 @@ public class ReadJson {
                     (conn.getInputStream())));
 
 
-            System.out.println("Output from Server .... \n");
+//            System.out.println("Output from Server .... \n");
             while ((output = br.readLine()) != null) {
-                System.out.println(output);
                 totlaJson+=output;
             }
 
@@ -88,23 +89,27 @@ public class ReadJson {
         JSONParser parser = new JSONParser();
         //System.out.println(str);
         JSONObject jsonObject = (JSONObject) parser.parse(totlaJson);
+//        System.out.println(jsonObject);
 
         try {
-            System.out.println(jsonObject.get("name"));
+//            System.out.println(jsonObject.get("name"));
 
-
-            org.json.simple.JSONArray msg = (org.json.simple.JSONArray) jsonObject.get("abilities");
+            org.json.simple.JSONArray msg = (org.json.simple.JSONArray) jsonObject.get("data");
             int n =   msg.size();//(msg).length();
+            System.out.println("number of players: "+n);
             for (int i = 0; i < n; ++i) {
                 JSONObject test =(JSONObject) msg.get(i);
-                JSONObject test2 =(JSONObject) test.get("ability");
-                abilityName = "\n"+ abilityName+""+(String) test2.get("name")+", ";
-                System.out.println(abilityName);
+                String test2 =(String) test.get("last_name");
+                System.out.println("TEST 2: " + test2);
+                System.out.println(test);
+
+//                data = data +""+", ";
+                System.out.println(data);
 
                 // System.out.println(person.getInt("key"));
             }
-            long name = (long)jsonObject.get("height");
-            System.out.println(name);
+//            long name = (long)jsonObject.get("height");
+//            System.out.println(name);
         }
 
         catch (Exception e) {

@@ -19,42 +19,28 @@ import javax.swing.*;
 
 
         public NBA() {
-//        readme = new ReadJson();
-//        try {
-//            readme.pull();
-//            hold= readme.abilityName;
-//            System.out.println(hold);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//
-//        prepareGUI();
             readme = new ReadJson();
         }
 
-        public void POKEgame(){
-
-
+        public void nba(){
             try {
                 readme.pull();
-                hold = readme.abilityName;
+                hold = readme.data;
                 System.out.println("hold: "+hold);
                 ta.append(hold);
-
 
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
         }
-
         public static void main(String[] args) {
-            PokeGame PokeGame = new PokeGame();
-            PokeGame.prepareGUI();
+            NBA nba = new NBA();
+            nba.prepareGUI();
         }
 
         private void prepareGUI(){
-            mainFrame = new JFrame("Poke Game");
+            mainFrame = new JFrame("FIND AN NBA PLAYER !");
             mainFrame.setSize(WIDTH, HEIGHT);
             Panel1 = new JPanel();
 
@@ -75,7 +61,7 @@ import javax.swing.*;
 
             JButton button1 = new JButton ("PREVIOUS ");
             JButton button2 = new JButton ("NEXT ");
-            JButton button3  = new JButton ("CARD INFORMATION: ");
+            JButton button3  = new JButton ("PLAYER INFORMATION: ");
 
             ta = new JTextArea();
             ta.setBounds(50, 5, WIDTH-100, HEIGHT-50);
@@ -83,7 +69,7 @@ import javax.swing.*;
 
             button1.setActionCommand("PREVIOUS");
             button2.setActionCommand("NEXT");
-            button3.setActionCommand("CARD INFORMATION: ");
+            button3.setActionCommand("PLAYER INFORMATION: ");
 
 
             button1.addActionListener(new ButtonClickListener());
@@ -108,18 +94,18 @@ import javax.swing.*;
         private class ButtonClickListener implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 String command = e.getActionCommand();
-                if (command.equals("CARD INFORMATION: ")){
-                    POKEgame();
+                if (command.equals("PLAYER INFORMATION: ")){
+                    nba();
                     System.out.println("\n");
                 }
-                if (command.equals ("NEXT") && readme.pokeNUM <= 3){
-                    readme.pokeNUM ++;
+                if (command.equals ("NEXT") && readme.playerNUM <= 25){
+                    readme.playerNUM ++;
                 }
                 else{
-                    readme.pokeNUM = 0;
+                    readme.playerNUM = 0;
                 }
             }
         }
     }
 
-}
+
