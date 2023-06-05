@@ -1,3 +1,4 @@
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -12,54 +13,69 @@ import java.net.URL;
 import java.util.ArrayList;
 
 
-// Program for print data in JSON format.
 public class ReadJson {
     public int playerNUM = 0;
 
-    public String data = "data: ";
+    public String dataName = "data: " + "\n";
+
     public static void main(String args[]) throws ParseException {
-        ReadJson read= new ReadJson();
+        ReadJson read = new ReadJson();
 
 
         ReadJson readMe = new ReadJson();
         JSONObject file = new JSONObject();
-        file.put("Full Name", "Ritu Sharma");
-        file.put("Roll No.", new Integer(1704310046));
-        file.put("Tution Fees", new Double(65400));
 
-
-        // To print in JSON format.
-        System.out.print(file.get("Tution Fees"));
         read.pull();
         readMe.pull();
 
     }
 
-    public String getName(){
-        return  data;
+    public String getName() {
+        return dataName;
+
     }
 
-    public  void pull() throws ParseException {
+    public void pull() throws ParseException {
         String output = "abc";
-        String totlaJson="";
+        String totlaJson = "";
 
         ArrayList<String> players = new ArrayList<String>();
-//        players.add();
-//        players.add();
-
+        players.add("Ike");
+        players.add("Ron");
+        players.add("Jabari");
+        players.add("MarShon");
+        players.add("Lorenzo");
+        players.add("Omri");
+        players.add("Alex");
+        players.add("Tyler");
+        players.add("Keenan");
+        players.add("Marcin");
+        players.add("Andrew");
+        players.add("Amir");
+        players.add("Malachi");
+        players.add("Zach");
+        players.add("Kosta");
+        players.add("Billy");
+        players.add("Zhou");
+        players.add("Zach");
+        players.add("DJ");
+        players.add("Milos");
+        players.add("Gary");
+        players.add("Michael");
+        players.add("John");
+        players.add("Howard");
+        players.add("Michael");
 
         try {
 
-            System.out.println("Players: "+ playerNUM);
 
-            URL url = new URL("https://free-nba.p.rapidapi.com/players" );
+            URL url = new URL("https://free-nba.p.rapidapi.com/players");
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
 //            conn.setRequestProperty("X-RapidAPI-Host", "ree-nba.p.rapidapi.com");
             conn.setRequestProperty("X-RapidAPI-Key", "8548bbf97fmshfbac91b9df35d10p17eec3jsn51c179578d09");
-
 
 
             if (conn.getResponseCode() != 200) {
@@ -72,9 +88,8 @@ public class ReadJson {
                     (conn.getInputStream())));
 
 
-//            System.out.println("Output from Server .... \n");
             while ((output = br.readLine()) != null) {
-                totlaJson+=output;
+                totlaJson += output;
             }
 
             conn.disconnect();
@@ -87,37 +102,28 @@ public class ReadJson {
         }
 
         JSONParser parser = new JSONParser();
-        //System.out.println(str);
         JSONObject jsonObject = (JSONObject) parser.parse(totlaJson);
-//        System.out.println(jsonObject);
 
         try {
-//            System.out.println(jsonObject.get("name"));
-
-            org.json.simple.JSONArray msg = (org.json.simple.JSONArray) jsonObject.get("data");
-            int n =   msg.size();//(msg).length();
-            System.out.println("number of players: "+n);
+            JSONArray msg = (JSONArray) jsonObject.get("data");
+            int n = msg.size();//(msg).length();
             for (int i = 0; i < n; ++i) {
-                JSONObject test =(JSONObject) msg.get(i);
-                String test2 =(String) test.get("last_name");
+                JSONObject test = (JSONObject) msg.get(i);
+                String test2 = (String) test.get("first_name");
+                System.out.println(test.get("team"));
+                JSONObject jOb1 = (JSONObject) test.get("team");
+                System.out.println(jOb1.get("full_name"));
+
                 System.out.println("TEST 2: " + test2);
                 System.out.println(test);
 
-//                data = data +""+", ";
-                System.out.println(data);
-
-                // System.out.println(person.getInt("key"));
+                if(test2.equals(players.get(playerNUM))){
+                    dataName = "\n" + "Player " + playerNUM + "/24: " + " " + (String) (players.get(playerNUM) + "\n" + (String) (jOb1.get("full_name")));
+                }
             }
-//            long name = (long)jsonObject.get("height");
-//            System.out.println(name);
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
 
     }
 }

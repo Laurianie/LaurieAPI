@@ -16,6 +16,8 @@ import javax.swing.*;
         private int HEIGHT=1200;
         public ReadJson readme;
         public String hold;
+        private JScrollPane scrollBar;
+
 
 
         public NBA() {
@@ -25,8 +27,7 @@ import javax.swing.*;
         public void nba(){
             try {
                 readme.pull();
-                hold = readme.data;
-                System.out.println("hold: "+hold);
+                hold = readme.dataName;
                 ta.append(hold);
 
             } catch (ParseException e) {
@@ -60,15 +61,27 @@ import javax.swing.*;
             });
 
             JButton button1 = new JButton ("PREVIOUS ");
-            JButton button2 = new JButton ("NEXT ");
+            JButton button2 = new JButton ("START ");
             JButton button3  = new JButton ("PLAYER INFORMATION: ");
 
             ta = new JTextArea();
             ta.setBounds(50, 5, WIDTH-100, HEIGHT-50);
+            ta.setBackground(Color.black);
+            ta.setForeground(Color.white);
+            ta.setFont(new Font("Trebuchet MS", Font.BOLD, 35));
+            button1.setBackground(Color.black);
+            button1.setForeground(Color.blue);
+            button1.setFont(new Font("Trebuchet MS", Font.BOLD, 15));
+            button2.setBackground(Color.black);
+            button2.setForeground(Color.blue);
+            button2.setFont(new Font("Trebuchet MS", Font.BOLD, 15));
+            button3.setBackground(Color.black);
+            button3.setForeground(Color.magenta);
+            button3.setFont(new Font("Trebuchet MS", Font.BOLD, 15));
 
 
             button1.setActionCommand("PREVIOUS");
-            button2.setActionCommand("NEXT");
+            button2.setActionCommand("START");
             button3.setActionCommand("PLAYER INFORMATION: ");
 
 
@@ -83,6 +96,9 @@ import javax.swing.*;
             mainFrame.add(button3, BorderLayout.NORTH);
             Panel1.add(ta);
             mainFrame.add(Panel1,BorderLayout.CENTER);
+            scrollBar = new JScrollPane(ta);
+            scrollBar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+            mainFrame.add(scrollBar,BorderLayout.CENTER);
 
             mainFrame.setVisible(true);
         }
@@ -98,11 +114,11 @@ import javax.swing.*;
                     nba();
                     System.out.println("\n");
                 }
-                if (command.equals ("NEXT") && readme.playerNUM <= 25){
+                if (command.equals ("START") && readme.playerNUM <= 25){
                     readme.playerNUM ++;
                 }
-                else{
-                    readme.playerNUM = 0;
+                if (command.equals("PREVIOUS")){
+                    readme.playerNUM = readme.playerNUM - 1;
                 }
             }
         }
